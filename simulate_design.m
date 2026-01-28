@@ -49,13 +49,7 @@ disp(resname);
 prev = mean(Y, 1);
 rare_idx = prev < 0.05;
 common_idx = prev >= 0.05;
-figure;
-for e = 1:E
-    subplot(1,E,e)
-    bar([sum(H(rare_idx,e)), sum(H(common_idx,e))])
-    set(gca,'XTickLabel',{'Rare','Common'})
-    title(['Edge ',num2str(e)])
-end
+
 
 % Cross validation
 cv = cvpartition(N, "HoldOut", 0.2);
