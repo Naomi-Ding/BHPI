@@ -20,6 +20,8 @@ This repository contains the official implementation for: **"Disentangling Laten
 To reproduce synthetic experiments, run the following in MATLAB:
 ```matlab
 simulate_design
+```
+
 
 ## 📊 Performance Summary
 
