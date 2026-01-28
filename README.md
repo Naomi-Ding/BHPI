@@ -1,7 +1,7 @@
 # Disentangling Latent Risk Pathways via Bayesian Hypergraph Inference (BHPI)
 
-This repository contains the official implementation for: **"Disentangling Latent Risk Pathways via Bayesian Hypergraph Inference."
-** BHPI is a scalable Bayesian framework designed to uncover structured latent pathways (hyperedges) from high-dimensional phenotype data.
+This repository contains the official implementation for: **"Disentangling Latent Risk Pathways via Bayesian Hypergraph Inference."** 
+BHPI is a scalable Bayesian framework designed to uncover structured latent pathways (hyperedges) from high-dimensional phenotype data.
 
 ## 📁 Repository Structure
 * `BHPI.m`: Core algorithm implementation using repulsion-aware coordinate ascent variational inference.
