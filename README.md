@@ -23,6 +23,45 @@ simulate_design
 ```
 
 
+### 🛠 Usage: Model Training and Evaluation
+The following example demonstrates how to initialize and call the BHPI algorithm, as implemented in [simulate_design.m](simulate_design.m):
+#### 1. Initialization and Core Algorithm Call
+Before training, the model requires variational parameter initialization. We recommend using ```NNMF``` for the best performance.
+```matlab
+% 1. Initialize variational parameters
+[initials] = cavi_initialization(seed_init, initial_method, E_hat, X_train, Y_train, []);
+
+% 2. Execute the BHPI Algorithm
+model = BHPI(X_train, Y_train, E_hat, max_iter, ...
+             seed_init, initials, omega_repulsion, staged, ...
+             fix_z, z_constraint, sigma2_alpha, ...
+             warmup_iters, batch_size, t0, weights, tol, verbose);
+```
+
+
+#### 2. Prediction and Performance Metric
+After training, you can generate predicted probabilities and evaluate the model using the Area Under the Receiver Operating Characteristic (AUROC) curve.
+```matlab
+% Generate predicted probabilities on a validation/test set
+eta_val = X_val * model.beta + model.alpha_mean;
+y_fitted_prob_val = 1 ./ (1 + exp(-eta_val));
+
+% Calculate AUROC for each disease (V)
+AUROC_val = NaN(1, V);
+for v = 1:V
+    [~, ~, ~, AUROC_val(v)] = perfcurve(Y_val(:, v), y_fitted_prob_val(:, v), 1);
+end
+mean_auroc = mean(AUROC_val);
+```
+
+#### Key Parameters Explained
+- `E_hat`: The maximum number of latent hyperedges to discover.
+- `omega_repulsion`: The repulsion strength parameter; setting this $>0$ helps disentangle redundant pathways.
+- `initials`: A struct containing the starting values for the variational parameters, can be created by calling `cavi_initialization`.
+- `model`: The learned disease-specific risk factor effects.
+
+
+
 ## 📊 Performance Summary
 
 | Phase | Complexity | Speed |
