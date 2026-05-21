@@ -66,5 +66,5 @@ mean_auroc = mean(AUROC_val);
 
 | Phase | Complexity | Speed |
 | :--- | :--- | :--- |
-| **Training** | $\mathcal{O}(N \cdot E \cdot (P + V))$ | ~117 mins ($N \approx 300k$) |
+| **Training** | $\mathcal{O}(N \cdot E \cdot (P + V))$ | ~74 mins ($N \approx 300k$) |
 | **Inference** | Efficient Matrix Ops | $< 0.1$ ms per sample |
