@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><!-- keep the draft out of search until the real page is deployed -->
+<title>BHPI — ICML 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:#fff;font-family:Arial,Helvetica,sans-serif;color:#1A2230;padding:48px 24px;
+  -webkit-font-smoothing:antialiased}
+.box{max-width:680px}
+.icml{font-size:14px;font-weight:800;letter-spacing:.08em;color:#00356B;text-transform:uppercase;text-align:center}
+h1{font-size:29px;font-weight:700;line-height:1.22;letter-spacing:-.015em;margin:18px 0 0;text-align:center}
+h1 .lt{color:#00356B;font-weight:400}
+.rule{width:56px;height:5px;background:#BF5B38;border-radius:2px;margin:22px auto}
+.affil{font-size:16px;color:#444B57;text-align:center}
+.abstract{margin-top:32px}
+.abstract h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#8C909A;margin-bottom:13px;text-align:center}
+.abstract p{font-size:15.5px;line-height:1.62;color:#444B57;margin-bottom:13px}
+.abstract b{color:#1A2230}
+.soon{font-size:14px;color:#8C909A;margin-top:30px;letter-spacing:.02em;text-align:center}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="icml">ICML 2026 · Oral</div>
+  <h1>Disentangling Latent Risk Pathways <span class="lt">via Bayesian Hypergraph Inference</span></h1>
+  <div class="rule"></div>
+  <div class="affil">Yale University</div>
+  <div class="abstract">
+    <h2>Abstract</h2>
+    <p>Electronic health records (EHR) pose large-scale multi-disease modeling problems in which many outcomes are rare and strongly influenced by shared risk factors. While modern approaches achieve strong predictive performance, they often treat diseases independently or rely on black-box architectures, offering limited insight into how risk factors organize disease risk and little principled uncertainty quantification.</p>
+    <p>We introduce a Bayesian hypergraph inference framework that reframes multi-disease modeling around <b>latent, risk-factor&ndash;modulated disease pathways</b>. Risk factors act on hyperedges &mdash; latent disease subsets with shared risk patterns &mdash; allowing diseases to participate in multiple distinct pathways and enabling interpretable, higher-order structure beyond pairwise associations. A repulsion prior encourages parsimonious and identifiable structure, while posterior inference provides calibrated uncertainty over both disease groupings and risk-factor influence.</p>
+    <p>To enable scalable inference on large EHR datasets, we develop a structured variational inference algorithm that preserves logical dependencies among hyperedge existence, disease membership, and pathway-level effects. Experiments on simulated data and the UK Biobank demonstrate stable and interpretable disease pathway structure, well-calibrated uncertainty, improved estimation for rare diseases, and competitive predictive performance.</p>
+  </div>
+  <div class="soon">Full project page coming soon.</div>
+</div>
+</body>
+</html>
