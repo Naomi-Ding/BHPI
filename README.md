@@ -1,86 +1,99 @@
-# Disentangling Latent Risk Pathways via Bayesian Hypergraph Inference (BHPI)
+<div align="center">
 
-This repository contains the official implementation for: **"Disentangling Latent Risk Pathways via Bayesian Hypergraph Inference."** 
-BHPI is a scalable Bayesian framework designed to uncover structured latent pathways (hyperedges) from high-dimensional phenotype data.
+# Disentangling Latent Risk Pathways<br>via Bayesian Hypergraph Inference
 
-> **ICML 2026 (Oral)** · Yale University
-> 🌐 **Project page:** https://naomi-ding.github.io/BHPI/ &nbsp;·&nbsp; 📄 **Paper (arXiv):** *coming soon*
+**Official implementation · Yale University**
 
-## 📁 Repository Structure
-* `BHPI.m`: Core algorithm implementation using repulsion-aware coordinate ascent variational inference.
-* `simulate_design.m`: Main entry point for synthetic experiments and structural recovery benchmarking.
-* `helper/`: Directory containing utility functions for synthetic data generation, hypergraph initialization, and repulsion logic.
+[![ICML 2026 Oral](https://img.shields.io/badge/ICML-2026%20Oral-00356B)](https://icml.cc/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-A8556E)](LICENSE)
+
+[**🌐 Project page**](https://naomi-ding.github.io/BHPI/) &nbsp;·&nbsp; **📄 Paper (arXiv)** *coming soon* &nbsp;·&nbsp; [**📌 BibTeX**](#citation)
+
+</div>
 
 ---
 
-## 🚀 Getting Started
+## 🧩 Overview
 
-### Prerequisites
-* MATLAB (R2023a+)
-* Statistics and Machine Learning Toolbox
+BHPI reframes multi-disease modeling as inferring a **latent hypergraph**: diseases group into overlapping *pathways* (hyperedges), and each risk factor acts on **pathways rather than individual diseases**. A disease's per–risk-factor effect is composed from the pathways it belongs to,
 
-### Quick Start
-To reproduce synthetic experiments, run the following in MATLAB:
+$$\beta_{j,v} \;=\; d_v^{-1}\sum_{e} H_{v,e}\,\mu_{j,e},$$
+
+a **repulsion prior** keeps the discovered pathways parsimonious and identifiable, and a **structured variational inference** scheme (Pólya–Gamma augmentation + CAVI) preserves the existence → membership → effect logic for calibrated posterior uncertainty over both the disease groupings and the risk-factor effects.
+
+## 📁 Repository structure
+
+```
+BHPI/
+├── BHPI.m              # core algorithm: repulsion-aware coordinate-ascent VI
+├── simulate_design.m   # entry point: synthetic experiments + structural recovery
+├── helper/             # synthetic data generation, hypergraph init, repulsion utilities
+└── docs/               # project page (served via GitHub Pages)
+```
+
+## 🚀 Getting started
+
+**Requirements:** MATLAB (R2023a+) with the Statistics and Machine Learning Toolbox.
+
+Reproduce the synthetic structure-recovery experiments:
+
 ```matlab
 simulate_design
 ```
 
+This simulates data from a known latent hypergraph, fits BHPI, and reports structural recovery (incidence `H` and effect `γ`/`μ`) alongside predictive AUC against the baselines.
 
-### 🛠 Usage: Model Training and Evaluation
-The following example demonstrates how to initialize and call the BHPI algorithm, as implemented in [simulate_design.m](simulate_design.m):
-#### 1. Initialization and Core Algorithm Call
-Before training, the model requires variational parameter initialization. We recommend using ```NNMF``` for the best performance.
+## 🛠 Usage
+
+Initialize the variational parameters, fit the model, then predict and evaluate — as in [`simulate_design.m`](simulate_design.m):
+
 ```matlab
-% 1. Initialize variational parameters
+% 1. Initialize variational parameters (NNMF initialization recommended)
 [initials] = cavi_initialization(seed_init, initial_method, E_hat, X_train, Y_train, []);
 
-% 2. Execute the BHPI Algorithm
+% 2. Fit the BHPI model
 model = BHPI(X_train, Y_train, E_hat, max_iter, ...
              seed_init, initials, omega_repulsion, staged, ...
              fix_z, z_constraint, sigma2_alpha, ...
              warmup_iters, batch_size, t0, weights, tol, verbose);
-```
 
+% 3. Predict on held-out data
+eta_val  = X_val * model.beta + model.alpha_mean;
+prob_val = 1 ./ (1 + exp(-eta_val));
 
-#### 2. Prediction and Performance Metric
-After training, you can generate predicted probabilities and evaluate the model using the Area Under the Receiver Operating Characteristic (AUROC) curve.
-```matlab
-% Generate predicted probabilities on a validation/test set
-eta_val = X_val * model.beta + model.alpha_mean;
-y_fitted_prob_val = 1 ./ (1 + exp(-eta_val));
-
-% Calculate AUROC for each disease (V)
-AUROC_val = NaN(1, V);
+% 4. Score per-disease AUROC
+AUROC = NaN(1, V);
 for v = 1:V
-    [~, ~, ~, AUROC_val(v)] = perfcurve(Y_val(:, v), y_fitted_prob_val(:, v), 1);
+    [~, ~, ~, AUROC(v)] = perfcurve(Y_val(:, v), prob_val(:, v), 1);
 end
-mean_auroc = mean(AUROC_val);
+mean_auroc = mean(AUROC);
 ```
 
-#### Key Parameters Explained
-- `E_hat`: The maximum number of latent hyperedges to discover.
-- `omega_repulsion`: The repulsion strength parameter; setting this $>0$ helps disentangle redundant pathways.
-- `initials`: A struct containing the starting values for the variational parameters, can be created by calling `cavi_initialization`.
-- `model`: The learned disease-specific risk factor effects.
+**Key parameters**
 
+| Argument | Meaning |
+| :--- | :--- |
+| `E_hat` | Upper bound on the number of latent hyperedges; the model self-regularizes to fewer. |
+| `omega_repulsion` | Repulsion strength; `> 0` disentangles redundant pathways. |
+| `initials` | Starting values for the variational parameters (from `cavi_initialization`). |
+| `model.beta` | Learned disease-specific risk-factor effects. |
 
+See the header of [`BHPI.m`](BHPI.m) for the full argument list (`staged`, `fix_z`, `warmup_iters`, `batch_size`, …).
 
-## 📊 Performance Summary
+## ⏱️ Runtime & complexity
 
 | Phase | Complexity | Speed |
 | :--- | :--- | :--- |
-| **Training** | $\mathcal{O}(N \cdot E \cdot (P + V))$ | ~74 mins ($N \approx 300k$) |
-| **Inference** | Efficient Matrix Ops | $< 0.1$ ms per sample |
+| **Training** | $\mathcal{O}(N \cdot E \cdot (P + V))$ per iteration | ~74 min ($N \approx 300\text{k}$) |
+| **Inference** | efficient matrix ops | $< 0.1$ ms / sample |
 
----
+## 🗄️ Data availability
 
-## 🗄️ Data Availability
+The synthetic experiments are fully reproducible from this repository; the paper's real-data results use the **UK Biobank**, which requires approved access and cannot be redistributed here.
 
-The synthetic experiments in `simulate_design.m` are fully reproducible from the code in this repository. The real-data analysis reported in the paper uses the **UK Biobank**, available to approved researchers through the UK Biobank Access Management System (application required); it cannot be redistributed here.
+<a id="citation"></a>
 
 ## ✒️ Citation
-
-If you use this code, please cite:
 
 ```bibtex
 @inproceedings{ding2026bhpi,
