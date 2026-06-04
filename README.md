@@ -15,11 +15,13 @@
 
 ## 🧩 Overview
 
-BHPI reframes multi-disease modeling as inferring a **latent hypergraph**: diseases group into overlapping *pathways* (hyperedges), and each risk factor acts on **pathways rather than individual diseases**. A disease's per–risk-factor effect is composed from the pathways it belongs to,
+BHPI reframes multi-disease modeling as inferring a **latent hypergraph**: diseases group into overlapping *pathways* (hyperedges), and each risk factor acts on **pathways rather than individual diseases**. A disease's per–risk-factor effect is **composed from the pathways it belongs to**:
 
-$$\beta_{j,v} \;=\; d_v^{-1}\sum_{e} H_{v,e}\,\mu_{j,e},$$
+```math
+\beta_{j,v} = d_v^{-1} \sum_{e} H_{v,e} \mu_{j,e}
+```
 
-a **repulsion prior** keeps the discovered pathways parsimonious and identifiable, and a **structured variational inference** scheme (Pólya–Gamma augmentation + CAVI) preserves the existence → membership → effect logic for calibrated posterior uncertainty over both the disease groupings and the risk-factor effects.
+A **repulsion prior** keeps the discovered pathways parsimonious and identifiable, and a **structured variational inference** scheme (Pólya–Gamma augmentation + CAVI) preserves the existence → membership → effect logic for calibrated posterior uncertainty over both the disease groupings and the risk-factor effects.
 
 ## 📁 Repository structure
 
