@@ -84,10 +84,12 @@ See the header of [`BHPI.m`](BHPI.m) for the full argument list (`staged`, `fix_
 
 ## ⏱️ Runtime & complexity
 
-| Phase | Complexity | Speed |
+| Phase | Per-iteration complexity | UK Biobank ($N \approx 277\text{K}$) |
 | :--- | :--- | :--- |
-| **Training** | $\mathcal{O}(N \cdot E \cdot (P + V))$ per iteration | ~74 min ($N \approx 300\text{k}$) |
+| **Training** | $\mathcal{O}(N \cdot E \cdot (P + V))$ | ~74 min · ~28 GB peak |
 | **Inference** | efficient matrix ops | $< 0.1$ ms / sample |
+
+> Measured on **4 × Intel Xeon 6342 cores, 60 GB RAM**; inference latency is on par with logistic regression.
 
 ## 🗄️ Data availability
 
