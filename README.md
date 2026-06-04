@@ -3,6 +3,9 @@
 This repository contains the official implementation for: **"Disentangling Latent Risk Pathways via Bayesian Hypergraph Inference."** 
 BHPI is a scalable Bayesian framework designed to uncover structured latent pathways (hyperedges) from high-dimensional phenotype data.
 
+> **ICML 2026 (Oral)** · Yale University
+> 🌐 **Project page:** https://naomi-ding.github.io/BHPI/ &nbsp;·&nbsp; 📄 **Paper (arXiv):** *coming soon*
+
 ## 📁 Repository Structure
 * `BHPI.m`: Core algorithm implementation using repulsion-aware coordinate ascent variational inference.
 * `simulate_design.m`: Main entry point for synthetic experiments and structural recovery benchmarking.
@@ -68,3 +71,28 @@ mean_auroc = mean(AUROC_val);
 | :--- | :--- | :--- |
 | **Training** | $\mathcal{O}(N \cdot E \cdot (P + V))$ | ~74 mins ($N \approx 300k$) |
 | **Inference** | Efficient Matrix Ops | $< 0.1$ ms per sample |
+
+---
+
+## 🗄️ Data Availability
+
+The synthetic experiments in `simulate_design.m` are fully reproducible from the code in this repository. The real-data analysis reported in the paper uses the **UK Biobank**, available to approved researchers through the UK Biobank Access Management System (application required); it cannot be redistributed here.
+
+## ✒️ Citation
+
+If you use this code, please cite:
+
+```bibtex
+@inproceedings{ding2026bhpi,
+  title     = {Disentangling Latent Risk Pathways via Bayesian Hypergraph Inference},
+  author    = {Ding, Shengxian and Gao, Haonan and Liu, Pangpang and Tian, Xinyuan and Zhao, Yize},
+  booktitle = {Proceedings of the 43rd International Conference on Machine Learning (ICML)},
+  series    = {Proceedings of Machine Learning Research},
+  publisher = {PMLR},
+  year      = {2026}
+}
+```
+
+## 📜 License
+
+Released under the [MIT License](LICENSE).
