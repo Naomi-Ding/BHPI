@@ -7,7 +7,7 @@
 [![ICML 2026 Oral](https://img.shields.io/badge/ICML-2026%20Oral-00356B)](https://icml.cc/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-A8556E)](LICENSE)
 
-[**🌐 Project page**](https://naomi-ding.github.io/BHPI/) &nbsp;·&nbsp; **📄 Paper (arXiv)** *coming soon* &nbsp;·&nbsp; [**📌 BibTeX**](#citation)
+[**🌐 Project page**](https://naomi-ding.github.io/BHPI/) &nbsp;·&nbsp; [**📄 Paper (arXiv)**](https://arxiv.org/abs/2606.07677) &nbsp;·&nbsp; [**📌 BibTeX**](#citation)
 
 </div>
 
@@ -106,7 +106,9 @@ The synthetic experiments are fully reproducible from this repository; the paper
   booktitle = {Proceedings of the 43rd International Conference on Machine Learning (ICML)},
   series    = {Proceedings of Machine Learning Research},
   publisher = {PMLR},
-  year      = {2026}
+  year      = {2026},
+  eprint    = {2606.07677},
+  archivePrefix = {arXiv}
 }
 ```
 
