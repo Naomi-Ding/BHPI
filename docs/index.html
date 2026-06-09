@@ -164,6 +164,7 @@ footer a:hover{text-decoration:underline}
 <!-- ABSTRACT -->
 <section>
   <h2>Abstract</h2>
+  <p>Electronic health records (EHR) pose large-scale multi-disease modeling problems in which many outcomes are rare and strongly influenced by shared risk factors. While modern approaches achieve strong predictive performance, they often treat diseases independently or rely on black-box architectures, offering limited insight into how risk factors organize disease risk and little principled uncertainty quantification.</p>
   <p>We introduce a Bayesian hypergraph inference framework that reframes multi-disease modeling around <b>latent, risk-factor–modulated disease pathways</b>. Risk factors act on hyperedges — latent disease subsets with shared risk patterns — allowing diseases to participate in multiple distinct pathways and enabling interpretable, higher-order structure beyond pairwise associations. A repulsion prior encourages parsimonious and identifiable structure, while posterior inference provides calibrated uncertainty over both disease groupings and risk-factor influence.</p>
   <p>To enable scalable inference on large EHR datasets, we develop a structured variational inference algorithm that preserves logical dependencies among hyperedge existence, disease membership, and pathway-level effects. Experiments on simulated data and the UK Biobank demonstrate stable and interpretable disease pathway structure, well-calibrated uncertainty, improved estimation for rare diseases, and competitive predictive performance.</p>
 </section>
